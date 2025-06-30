@@ -10,11 +10,11 @@
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.bin</key>
 		<data>
-		ME0cAg6cl/bTZmwXEVgMugDccUI=
+		p2pw2cgVH83OCo3sE1MCqL7INVg=
 		</data>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<data>
-		oG5/OGn+vw7vp/nu5DUDoZJ4nFc=
+		jCtxe4NxA159/wYPrfO8X6qaE+o=
 		</data>
 		<key>Resources/flutter_assets/FontManifest.json</key>
 		<data>
@@ -28,6 +28,18 @@
 		<data>
 		re4p7E8rPLLsN+wzaPN/+AVpXTY=
 		</data>
+		<key>Resources/flutter_assets/assets/icons/appartement.png</key>
+		<data>
+		wA0hIX9+8mj/wvHs0/ThhNfUL3s=
+		</data>
+		<key>Resources/flutter_assets/assets/icons/condominium.png</key>
+		<data>
+		zYyel2C8Qe9KYZOMQrcDb89t1Rs=
+		</data>
+		<key>Resources/flutter_assets/assets/icons/maison-moderne.png</key>
+		<data>
+		R/1o0/aCIFV5uQxCbd2SAbi2aTE=
+		</data>
 		<key>Resources/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
 		/CUoTuPQqqdexfyOT9lpJhV+2MQ=
@@ -38,7 +50,7 @@
 		</data>
 		<key>Resources/flutter_assets/kernel_blob.bin</key>
 		<data>
-		+8kwzuzUMzQmAq5dIJIYIY96muU=
+		ekk9jDKhA1NrkeIR8Pbz58i9K9I=
 		</data>
 		<key>Resources/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -66,14 +78,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			AK9VrT1vIYmP534P8JLRoc2lLJQbaGDpko1FyK+MCV0=
+			Veb/Vw8H+eqqtaO9+ZvewEiFNlYqfNJKDS6MPAxwGrY=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/AssetManifest.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Sps95+7JukayebvM0TLjL1LW1VXXndpKp/O8tOm9ZR8=
+			b7zoce8gNAEBLzdW9xyP0/ixJg2Fgsw8PQa2/ZDcXnw=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/FontManifest.json</key>
@@ -97,6 +109,27 @@
 			lUijHkoEgTXB2U+Rkyi/tirix7s8q5ZVfHlB2ql3dss=
 			</data>
 		</dict>
+		<key>Resources/flutter_assets/assets/icons/appartement.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			sLb+ayEsWeGvFBtTz9iYyL+xfJzt16SHxXgwzJIrbFA=
+			</data>
+		</dict>
+		<key>Resources/flutter_assets/assets/icons/condominium.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			GQ55BPhFa8iCpEY8O1jgU0cc3xRWmHzD4lIbo2uLRNA=
+			</data>
+		</dict>
+		<key>Resources/flutter_assets/assets/icons/maison-moderne.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			AWneqjGPm2HxVi939JF+nYciqFPD1RSn6ExEYw0kOA4=
+			</data>
+		</dict>
 		<key>Resources/flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<dict>
 			<key>hash2</key>
@@ -115,7 +148,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			cv3Q5K/H+3WmvfSegy9OSDM4bj+gHlQZYEMC6cG25s8=
+			P3yDDn/MrooiCF3OhA8ldUxYtxoH6dNoV5PuLEyqVww=
 			</data>
 		</dict>
 		<key>Resources/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>

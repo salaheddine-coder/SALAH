@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:salah/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+Future<void> main() async => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,34 +10,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-       
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 249, 249, 249)),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white, // إضافة خلفية بيضاء
-      body: Container(), // حاوية فارغة بدون أي محتوى
+debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }
