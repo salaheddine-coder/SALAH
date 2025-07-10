@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:salah/home_screen.dart';
+import 'package:salah/bottom_navigation.dart';
 
 Future<void> main() async => runApp(const MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
 debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: EnhancedBottomNavigation(),
     );
   }
 }
