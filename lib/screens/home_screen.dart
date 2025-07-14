@@ -278,6 +278,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  
+   
+
   Widget _buildImageIconContainer(String imagePath, Color color) {
     return Container(
       padding: const EdgeInsets.all(30),
@@ -570,5 +573,81 @@ String formatPrice(double price) {
         RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
         (Match m) => '${m[1]},',
       );
-  return '$formatted DH';
+  return '$formatted Dhs';
+}
+
+
+
+class ImageOverlayButtons extends StatelessWidget {
+  final int imageCount;
+
+  const ImageOverlayButtons({
+    super.key,
+    required this.imageCount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Camera/Image count button
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.camera_alt,
+                color: Colors.white,
+                size: 18,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                '$imageCount',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Layout switch button
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(
+            Icons.grid_view,
+            color: Colors.white,
+            size: 18,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Widget _buildPropertyImage() {
+  return Stack(
+    children: [
+      Image.asset(
+        'assets/images/apartment.jpg',
+        width: double.infinity,
+        height: 200,
+        fit: BoxFit.cover,
+      ),
+      Positioned(
+        bottom: 12,
+        left: 12,
+        child: ImageOverlayButtons(imageCount: 12),
+      ),
+    ],
+  );
 }

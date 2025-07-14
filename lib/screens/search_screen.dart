@@ -162,16 +162,42 @@ class SearchScreen extends StatelessWidget {
         children: [
           // Property Image
           Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-              image: const DecorationImage(
-                image: AssetImage('assets/images/apartment3.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            height: 160,
             child: Stack(
               children: [
+                GestureDetector(
+                  onTap: () {
+                    var context;
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Container(
+                            height: 400,
+                            child: PageView(
+                              children: [
+                                Image.asset('assets/images/appartment-1.jpg', fit: BoxFit.cover),
+                                Image.asset('assets/images/appartment-2.jpg', fit: BoxFit.cover),
+                                Image.asset('assets/images/appartment-3.jpg', fit: BoxFit.cover),
+                                // Add more images as needed
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                      image: DecorationImage(
+                        image: const AssetImage('assets/images/appartment-1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              //children: [
                 Positioned(
                   bottom: 10,
                   left: 10,
@@ -189,7 +215,7 @@ class SearchScreen extends StatelessWidget {
                         Icon(Icons.camera_alt, color: Colors.white, size: 16),
                         SizedBox(width: 5),
                         Text(
-                          '12',
+                          '9',
                           style: TextStyle(color: Colors.white),
                         ),
                       ],
@@ -207,7 +233,7 @@ class SearchScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  '3 Bedrooms Apartment',
+                  '2 Bedrooms Apartment',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -219,7 +245,7 @@ class SearchScreen extends StatelessWidget {
                     const Icon(Icons.location_on, size: 16, color: Colors.grey),
                     const SizedBox(width: 5),
                     Text(
-                      'San Francisco, California',
+                      'Casablanca Finance City, Casablanca',
                       style: TextStyle(
                         color: Colors.grey[600],
                         fontSize: 14,
@@ -229,7 +255,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  '\$200,000',
+                  '\14990 Dhs/month',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
