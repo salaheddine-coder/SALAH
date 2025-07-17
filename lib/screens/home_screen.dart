@@ -1,6 +1,5 @@
 
 
-
 import 'package:salah/core/imports.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,258 +16,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var pageView = PageView.builder(
-      itemCount: 3,
-      onPageChanged: (index) {
-        setState(() => _currentImageIndex = index);
-      },
-      scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          child: Image.asset(
-            'assets/images/Modern villa _1.jpeg',
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        );
-      },
-    );
     return Scaffold(
+      backgroundColor: AppColors.backgroundLight,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Hello',
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      ),
-                      const Text(
-                        'User Name Here',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const CircleAvatar(radius: 25, backgroundColor: Colors.grey),
-                ],
-              ),
+              // Header Section
+              _buildHeader(),
+              const SizedBox(height: 24),
+              // Search Section
+              _buildSearchSection(),
+              const SizedBox(height: 32),
+              // Categories Section
+              _buildCategoriesSection(),
+              const SizedBox(height: 32),
+              // Properties Header
+              _buildPropertiesHeader(),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search by zip code',
-                        prefixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.filter_list, color: Colors.white),
-                      onPressed: () {
-                        // إضافة حوار الفلتر
-                        showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          builder: (context) => const FilterScreen(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _buildImageIconContainer(
-                      'assets/icons/maison-moderne.png',
-                      Colors.purple,
-                    ),
-                    const SizedBox(width: 15),
-                    _buildImageIconContainer(
-                      'assets/icons/appartement.png',
-                      Colors.purple,
-                    ),
-                    const SizedBox(width: 15),
-                    _buildImageIconContainer(
-                      'assets/icons/appartement haut standing.png',
-                      Colors.purple,
-                    ),
-                    const SizedBox(width: 15),
-                    _buildImageIconContainer(
-                      'assets/icons/condominium.png',
-                      Colors.purple,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 50),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'All Properties',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
 
-                  TextButton(onPressed: () {}, child: const Text('See All')),
-                ],
-              ),
-
+              // Properties List
               Expanded(
-                child: ListView.builder(
-                  itemCount: properties.length,
-                  itemBuilder: (context, index) {
-                    final property = properties[index];
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 15),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                SizedBox(
-                                  height: 200,
-                                  child: PageView.builder(
-                                    itemCount: property.images.length,
-                                    onPageChanged: (index) {
-                                      setState(() {
-                                        _currentImageIndex = index;
-                                      });
-                                    },
-                                    itemBuilder: (context, imageIndex) {
-                                      return ClipRRect(
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                              top: Radius.circular(15),
-                                            ),
-                                        child: Image.asset(
-                                          property.images[imageIndex],
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-
-                                Positioned(
-                                  bottom: 10,
-                                  right: 10,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Text(
-                                      '${_currentImageIndex + 1}/${property.images.length}',
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        property.name,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.red,
-                                        ),
-                                        onPressed: () {},
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.location_on,
-                                        color: Colors.grey,
-                                        size: 16,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        property.location,
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    '${property.price.toStringAsFixed(0)} DH',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blue[700],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                child: _buildPropertiesList(),
               ),
             ],
           ),
@@ -278,17 +49,443 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  
-   
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hello',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'User Name Here',
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            // Maps Button
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: AppColors.cardBackground,
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.map_outlined,
+                  color: AppColors.primaryBlue,
+                  size: 24,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MapScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(width: 12),
+            // User Avatar
+            Container(
+              decoration: BoxDecoration(
+                gradient: AppColors.blueGradient,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.transparent,
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
-  Widget _buildImageIconContainer(String imagePath, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(30),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
+  Widget _buildSearchSection() {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.cardBackground,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search by zip code',
+                hintStyle: TextStyle(color: AppColors.textHint),
+                prefixIcon: Icon(Icons.search, color: AppColors.primaryBlue),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.transparent,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Container(
+          height: 56,
+          width: 56,
+          decoration: BoxDecoration(
+            gradient: AppColors.blueGradient,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primaryBlue.withValues(alpha: 0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.tune, color: Colors.white),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const FilterScreen(),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCategoriesSection() {
+    final categories = [
+      {'icon': 'assets/icons/maison-moderne.png', 'label': 'Villa'},
+      {'icon': 'assets/icons/appartement.png', 'label': 'Apartment'},
+      {'icon': 'assets/icons/appartement haut standing.png', 'label': 'Luxury'},
+      {'icon': 'assets/icons/condominium.png', 'label': 'Office'},
+    ];
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: categories.map((category) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: _buildCategoryItem(
+              category['icon']!,
+              category['label']!,
+            ),
+          );
+        }).toList(),
       ),
-      child: Image.asset(imagePath, width: 50, height: 50, fit: BoxFit.contain),
+    );
+  }
+
+  Widget _buildCategoryItem(String iconPath, String label) {
+    return GestureDetector(
+      onTap: () {
+        // Handle category selection
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.blueShade50,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.blueShade200,
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.cardBackground,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                iconPath,
+                width: 32,
+                height: 32,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppColors.primaryBlue,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPropertiesHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'All Properties',
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            'See All',
+            style: TextStyle(
+              color: AppColors.primaryBlue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPropertiesList() {
+    return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 20),
+      itemCount: properties.length,
+      itemBuilder: (context, index) {
+        final property = properties[index];
+        return _buildPropertyCard(property, index);
+      },
+    );
+  }
+
+  Widget _buildPropertyCard(Property property, int index) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PropertyDetailsScreen(property: property),
+            ),
+          );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildPropertyImage(property),
+            _buildPropertyInfo(property),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPropertyImage(Property property) {
+    return Stack(
+      children: [
+        SizedBox(
+          height: 220,
+          child: PageView.builder(
+            itemCount: property.images.length,
+            onPageChanged: (index) {
+              setState(() {
+                _currentImageIndex = index;
+              });
+            },
+            itemBuilder: (context, imageIndex) {
+              return ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+                child: Image.asset(
+                  property.images[imageIndex],
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              );
+            },
+          ),
+        ),
+        Positioned(
+          top: 16,
+          right: 16,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.favorite_border,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.7),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              '${_currentImageIndex + 1}/${property.images.length}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPropertyInfo(Property property) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            property.name,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                Icons.location_on,
+                color: AppColors.primaryBlue,
+                size: 18,
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  property.location,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _buildPropertyFeature(Icons.square_foot, '${property.area.toInt()} m²'),
+              const SizedBox(width: 16),
+              _buildPropertyFeature(Icons.bed, '${property.bedrooms} bed'),
+              const SizedBox(width: 16),
+              _buildPropertyFeature(Icons.bathroom, '${property.bathrooms} bath'),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              gradient: AppColors.blueGradient,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              property.isForRent
+                  ? '${property.monthlyRent.toStringAsFixed(0)} DH/month'
+                  : '${property.price.toStringAsFixed(0)} DH',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPropertyFeature(IconData icon, String text) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: AppColors.primaryBlue,
+          size: 16,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: AppColors.textSecondary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -308,139 +505,188 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      height: MediaQuery.of(context).size.height * 0.85,
+      decoration: const BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Filter',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          
-          // Search TextField
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Search by zip code',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              filled: true,
-              fillColor: Colors.grey[100],
-            ),
-          ),
-          
-          const SizedBox(height: 20),
-          
-          // Property Types
-          const Text(
-            'Property types',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _buildFilterChip('Apartment', true),
-                _buildFilterChip('House', false),
-                _buildFilterChip('Land', false),
-                _buildFilterChip('Commercial', false),
-              ],
+          // Handle bar
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: AppColors.grey300,
+              borderRadius: BorderRadius.circular(2),
             ),
           ),
 
-          const SizedBox(height: 20),
-          
-          // Bedrooms
-          const Text(
-            'Bedrooms',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                _buildFilterChip('No min', true),
-                _buildFilterChip('Studio', false),
-                _buildFilterChip('1 bedroom', false),
-                _buildFilterChip('2 bedrooms', false),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 20),
-          
-          // Property Price
-          const Text(
-            'Property price',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          RangeSlider(
-            values: priceRange,
-            min: 0,
-            max: 1000000,
-            divisions: 20,
-            labels: RangeLabels(
-              '${priceRange.start.round()} DH',
-              '${priceRange.end.round()} DH',
-            ),
-            onChanged: (RangeValues values) {
-              setState(() {
-                priceRange = values;
-              });
-            },
-          ),
-          
-          const Spacer(),
-          
-          // Buttons
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    // Reset logic
-                  },
-                  child: const Text('Reset'),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Search logic
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Filter Properties',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: const Text(
-                    'Search',
-                    style: TextStyle(color: Colors.white),
+                  const SizedBox(height: 24),
+
+                  // Search TextField
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.grey100,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search by zip code',
+                        hintStyle: TextStyle(color: AppColors.textHint),
+                        prefixIcon: Icon(Icons.search, color: AppColors.primaryBlue),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                      ),
+                    ),
                   ),
-                ),
+
+                  const SizedBox(height: 24),
+
+                  // Property Types
+                  Text(
+                    'Property types',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildFilterChip('Apartment', true),
+                        _buildFilterChip('House', false),
+                        _buildFilterChip('Land', false),
+                        _buildFilterChip('Commercial', false),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Bedrooms
+                  Text(
+                    'Bedrooms',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildFilterChip('No min', true),
+                        _buildFilterChip('Studio', false),
+                        _buildFilterChip('1 bedroom', false),
+                        _buildFilterChip('2 bedrooms', false),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  // Property Price
+                  Text(
+                    'Property price',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: AppColors.primaryBlue,
+                      inactiveTrackColor: AppColors.grey200,
+                      thumbColor: AppColors.primaryBlue,
+                      overlayColor: AppColors.primaryBlue.withValues(alpha: 0.2),
+                    ),
+                    child: RangeSlider(
+                      values: priceRange,
+                      min: 0,
+                      max: 1000000,
+                      divisions: 20,
+                      labels: RangeLabels(
+                        '${priceRange.start.round()} DH',
+                        '${priceRange.end.round()} DH',
+                      ),
+                      onChanged: (RangeValues values) {
+                        setState(() {
+                          priceRange = values;
+                        });
+                      },
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  // Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            // Reset logic
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: AppColors.primaryBlue),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Reset',
+                            style: TextStyle(color: AppColors.primaryBlue),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryBlue,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Apply Filter',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -449,20 +695,31 @@ class _FilterScreenState extends State<FilterScreen> {
 
   Widget _buildFilterChip(String label, bool isSelected) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: FilterChip(
-        label: Text(label),
-        selected: isSelected,
-        onSelected: (bool value) {
+      padding: const EdgeInsets.only(right: 12),
+      child: GestureDetector(
+        onTap: () {
           setState(() {
             // Update selection logic
           });
         },
-        backgroundColor: Colors.grey[100],
-        selectedColor: Colors.green[100],
-        checkmarkColor: Colors.green,
-        labelStyle: TextStyle(
-          color: isSelected ? Colors.green : Colors.black,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primaryBlue : AppColors.grey100,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+              color: isSelected ? AppColors.primaryBlue : AppColors.grey300,
+              width: 1,
+            ),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              fontSize: 14,
+            ),
+          ),
         ),
       ),
     );
@@ -499,7 +756,7 @@ class Property {
 List<Property> properties = [
   Property(
     name: 'Luxury Villa',
-    location: 'Casablanca, Morocco',
+    location: 'Casablanca, Anfa, Morocco',
     price: 14000000,
     area: 873.0,
     bedrooms: 6,
@@ -549,18 +806,32 @@ List<Property> properties = [
     bathrooms: 1,
     neighborhood: 'Hay Hassani',
     isForRent: true,
-    monthlyRent: 6000, 
+    monthlyRent: 6000,
     images: [
       'assets/images/Bureau_1.jpeg',
       'assets/images/Bureau_2.jpeg',
       'assets/images/Bureau_3.jpeg',
       'assets/images/Bureau_4.jpeg',
       'assets/images/Bureau_5.jpeg',
-      'assets/images/Bureau_6.jpeg',
-      'assets/images/Bureau_7.jpeg',
-      'assets/images/Bureau_8.jpeg',
-      'assets/images/Bureau_9.jpeg',
-      'assets/images/Bureau_10.jpeg',
+      'assets/images/Studio_1.jpeg',
+    ],
+  ),
+  Property(
+    name: 'Cozy Studio',
+    location: 'Casablanca, Casablanca Finance City, Morocco',
+    price: 14990,
+    area: 45.0,
+    bedrooms: 2,
+    bathrooms: 2,
+    neighborhood: 'Maarif',
+    isForRent: true,
+    monthlyRent: 14990,
+    images: [
+      'assets/images/appartment-1 .jpg',
+      'assets/images/appartment-2.jpg',
+      'assets/images/appartment-3.jpg',
+      'assets/images/appartment-4.jpg',
+      'assets/images/appartment-5.jpg',
     ],
   ),
 ];
@@ -578,76 +849,4 @@ String formatPrice(double price) {
 
 
 
-class ImageOverlayButtons extends StatelessWidget {
-  final int imageCount;
 
-  const ImageOverlayButtons({
-    super.key,
-    required this.imageCount,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Camera/Image count button
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.camera_alt,
-                color: Colors.white,
-                size: 18,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                '$imageCount',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        // Layout switch button
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: const Icon(
-            Icons.grid_view,
-            color: Colors.white,
-            size: 18,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-Widget _buildPropertyImage() {
-  return Stack(
-    children: [
-      Image.asset(
-        'assets/images/apartment.jpg',
-        width: double.infinity,
-        height: 200,
-        fit: BoxFit.cover,
-      ),
-      Positioned(
-        bottom: 12,
-        left: 12,
-        child: ImageOverlayButtons(imageCount: 12),
-      ),
-    ],
-  );
-}
