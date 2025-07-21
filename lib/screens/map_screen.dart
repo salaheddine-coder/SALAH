@@ -1,4 +1,5 @@
 import 'package:salah/core/imports.dart';
+import 'package:salah/core/app_localizations.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -116,29 +117,53 @@ class _MapScreenState extends State<MapScreen> {
               child: Stack(
                 children: [
                   // Map View
-                  if (!isListView) _buildMapView(),
+                  if (!isListView)
+                    Container(
+                      key: const ValueKey('mapView'),
+                      child: _buildMapView(),
+                    ),
 
                   // List View
-                  if (isListView) _buildListView(),
+                  if (isListView)
+                    Container(
+                      key: const ValueKey('listView'),
+                      child: _buildListView(),
+                    ),
 
                   // Search Bar (only for map view)
-                  if (!isListView) _buildMapSearchBar(),
-                  
+                  if (!isListView)
+                    Container(
+                      key: const ValueKey('searchBar'),
+                      child: _buildMapSearchBar(),
+                    ),
+
                   // Floating Action Buttons
                   Positioned(
+                    key: const ValueKey('floatingButtons'),
                     bottom: 20,
                     right: 20,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         // Current Location Button
-                        if (!isListView) _buildCurrentLocationButton(),
-                        const SizedBox(height: 12),
+                        if (!isListView)
+                          Container(
+                            key: const ValueKey('currentLocationBtn'),
+                            child: _buildCurrentLocationButton(),
+                          ),
+                        if (!isListView) const SizedBox(key: ValueKey('spacer1'), height: 12),
                         // Map Type Toggle Button
-                        if (!isListView) _buildMapTypeButton(),
-                        const SizedBox(height: 12),
+                        if (!isListView)
+                          Container(
+                            key: const ValueKey('mapTypeBtn'),
+                            child: _buildMapTypeButton(),
+                          ),
+                        if (!isListView) const SizedBox(key: ValueKey('spacer2'), height: 12),
                         // View Toggle Button
-                        _buildToggleButton(),
+                        Container(
+                          key: const ValueKey('viewToggleBtn'),
+                          child: _buildToggleButton(),
+                        ),
                       ],
                     ),
                   ),
@@ -176,9 +201,9 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
           const SizedBox(width: 16),
-          const Text(
-            'Properties Map',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.translate('propertiesMap'),
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.black87,
@@ -318,7 +343,7 @@ class _MapScreenState extends State<MapScreen> {
         child: TextField(
           controller: _searchController,
           decoration: InputDecoration(
-            hintText: 'Search location...',
+            hintText: AppLocalizations.of(context)!.translate('searchLocation'),
             prefixIcon: Icon(
               Icons.search,
               color: AppColors.primaryBlue,
@@ -411,6 +436,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 Positioned(
+                  key: ValueKey('favoriteBtn_${property.name}'),
                   top: 12,
                   right: 12,
                   child: Container(
@@ -441,6 +467,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 if (property.images.length > 1)
                   Positioned(
+                    key: ValueKey('mapImageCount_${property.name}'),
                     bottom: 12,
                     right: 12,
                     child: Container(
@@ -528,6 +555,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildCurrentLocationButton() {
     return FloatingActionButton(
+      heroTag: "currentLocationButton",
       mini: true,
       onPressed: () async {
         if (currentLocation != null && mapController != null) {
@@ -550,6 +578,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildMapTypeButton() {
     return FloatingActionButton(
+      heroTag: "mapTypeButton",
       mini: true,
       onPressed: () {
         setState(() {
@@ -568,6 +597,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget _buildToggleButton() {
     return FloatingActionButton(
+      heroTag: "viewToggleButton",
       onPressed: () {
         setState(() {
           isListView = !isListView;

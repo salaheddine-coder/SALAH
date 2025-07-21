@@ -1,4 +1,5 @@
 import 'package:salah/core/imports.dart';
+import 'package:salah/core/app_localizations.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -93,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
         const SizedBox(width: 16),
         Expanded(
           child: Text(
-            'Search Properties',
+            AppLocalizations.of(context)!.searchProperties,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.bold,
@@ -140,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-          hintText: 'Search by location, type, or price...',
+          hintText: AppLocalizations.of(context)!.searchHint,
           hintStyle: TextStyle(color: AppColors.textHint),
           prefixIcon: Icon(Icons.search, color: AppColors.primaryBlue),
           suffixIcon: _searchController.text.isNotEmpty

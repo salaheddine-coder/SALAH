@@ -55,13 +55,39 @@ GMSServices.provideAPIKey("YOUR_ACTUAL_API_KEY_HERE")
 - Set up proper API key restrictions
 - Monitor your API usage in Google Cloud Console
 
+## iOS Deployment Target Fix
+
+If you encounter the error about iOS deployment version, follow these steps:
+
+1. **Update Podfile**: Set minimum iOS version to 14.0
+```ruby
+platform :ios, '14.0'
+```
+
+2. **Update AppFrameworkInfo.plist**: Change MinimumOSVersion to 14.0
+```xml
+<key>MinimumOSVersion</key>
+<string>14.0</string>
+```
+
+3. **Clean and reinstall**:
+```bash
+cd ios
+rm -rf Pods Podfile.lock
+pod install
+cd ..
+flutter clean
+flutter pub get
+```
+
 ## Troubleshooting
 
 ### Common Issues:
 
-1. **Map not loading**: Check if API key is correct and APIs are enabled
-2. **Location not working**: Ensure location permissions are granted
-3. **Markers not showing**: Verify marker creation logic and coordinates
+1. **iOS deployment target error**: Update to iOS 14.0+ (see above)
+2. **Map not loading**: Check if API key is correct and APIs are enabled
+3. **Location not working**: Ensure location permissions are granted
+4. **Markers not showing**: Verify marker creation logic and coordinates
 
 ### Debug Steps:
 

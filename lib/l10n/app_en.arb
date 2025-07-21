@@ -1,0 +1,207 @@
+{
+  "@@locale": "en",
+  "appTitle": "Estaly",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  
+  "welcome": "Welcome back!",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  
+  "searchProperties": "Search Properties",
+  "@searchProperties": {
+    "description": "Search properties text"
+  },
+  
+  "searchHint": "Search for properties...",
+  "@searchHint": {
+    "description": "Search input hint"
+  },
+  
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories section title"
+  },
+  
+  "villa": "Villa",
+  "@villa": {
+    "description": "Villa category"
+  },
+  
+  "apartment": "Apartment",
+  "@apartment": {
+    "description": "Apartment category"
+  },
+  
+  "luxury": "Luxury",
+  "@luxury": {
+    "description": "Luxury category"
+  },
+  
+  "office": "Office",
+  "@office": {
+    "description": "Office category"
+  },
+  
+  "featuredProperties": "Featured Properties",
+  "@featuredProperties": {
+    "description": "Featured properties section title"
+  },
+  
+  "photos": "Photos",
+  "@photos": {
+    "description": "Photos button text"
+  },
+  
+  "map": "Map",
+  "@map": {
+    "description": "Map button text"
+  },
+  
+  "getDirections": "Get Directions",
+  "@getDirections": {
+    "description": "Get directions button text"
+  },
+  
+  "openInMapsApp": "Open in Maps app",
+  "@openInMapsApp": {
+    "description": "Open in maps app description"
+  },
+  
+  "distance": "Distance",
+  "@distance": {
+    "description": "Distance text"
+  },
+  
+  "calculateFromYourLocation": "Calculate from your location",
+  "@calculateFromYourLocation": {
+    "description": "Calculate distance description"
+  },
+  
+  "address": "Address",
+  "@address": {
+    "description": "Address text"
+  },
+  
+  "propertyPhotos": "Property Photos",
+  "@propertyPhotos": {
+    "description": "Property photos title"
+  },
+  
+  "propertyLocation": "Property Location",
+  "@propertyLocation": {
+    "description": "Property location title"
+  },
+  
+  "propertyLocationMap": "Property Location Map",
+  "@propertyLocationMap": {
+    "description": "Property location map text"
+  },
+  
+  "calculateDistance": "Calculate Distance",
+  "@calculateDistance": {
+    "description": "Calculate distance dialog title"
+  },
+  
+  "featureUnderDevelopment": "This feature is under development and will be available soon.",
+  "@featureUnderDevelopment": {
+    "description": "Feature under development message"
+  },
+  
+  "youWillBeAbleTo": "You will be able to:",
+  "@youWillBeAbleTo": {
+    "description": "Future features intro"
+  },
+  
+  "seeDistanceFromCurrentLocation": "• See distance from your current location",
+  "@seeDistanceFromCurrentLocation": {
+    "description": "Future feature description"
+  },
+  
+  "knowExpectedArrivalTime": "• Know expected arrival time",
+  "@knowExpectedArrivalTime": {
+    "description": "Future feature description"
+  },
+  
+  "choosePreferredTransport": "• Choose preferred transport method",
+  "@choosePreferredTransport": {
+    "description": "Future feature description"
+  },
+  
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  
+  "errorOpeningMaps": "Error opening maps app",
+  "@errorOpeningMaps": {
+    "description": "Error message when maps app fails to open"
+  },
+  
+  "cannotOpenMapsApp": "Cannot open maps app",
+  "@cannotOpenMapsApp": {
+    "description": "Error message when maps app is not available"
+  },
+  
+  "propertiesMap": "Properties Map",
+  "@propertiesMap": {
+    "description": "Properties map screen title"
+  },
+  
+  "searchLocation": "Search location...",
+  "@searchLocation": {
+    "description": "Search location hint in map"
+  },
+  
+  "interactiveMap": "Interactive Map",
+  "@interactiveMap": {
+    "description": "Interactive map placeholder text"
+  },
+  
+  "propertiesLocationsWillBeShownHere": "Properties locations will be shown here",
+  "@propertiesLocationsWillBeShownHere": {
+    "description": "Map placeholder description"
+  },
+  
+  "all": "All",
+  "@all": {
+    "description": "All filter option"
+  },
+  
+  "house": "House",
+  "@house": {
+    "description": "House category"
+  },
+  
+  "monthlyRent": "DH/month",
+  "@monthlyRent": {
+    "description": "Monthly rent suffix"
+  },
+  
+  "price": "DH",
+  "@price": {
+    "description": "Price suffix"
+  },
+  
+  "bed": "bed",
+  "@bed": {
+    "description": "Bedroom count suffix"
+  },
+  
+  "bath": "bath",
+  "@bath": {
+    "description": "Bathroom count suffix"
+  },
+  
+  "sqm": "m²",
+  "@sqm": {
+    "description": "Square meter unit"
+  }
+}

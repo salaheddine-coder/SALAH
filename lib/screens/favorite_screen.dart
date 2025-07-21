@@ -1,4 +1,5 @@
 import 'package:salah/core/imports.dart';
+import 'package:salah/core/app_localizations.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -80,9 +81,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           ),
         ),
         const SizedBox(width: 16),
-        const Text(
-          'Saved Properties',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.translate('savedProperties'),
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -122,13 +123,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                _buildFilterChip('All'),
+                _buildFilterChip(AppLocalizations.of(context)!.all),
                 const SizedBox(width: 12),
-                _buildFilterChip('Apartment'),
+                _buildFilterChip(AppLocalizations.of(context)!.apartment),
                 const SizedBox(width: 12),
-                _buildFilterChip('House'),
+                _buildFilterChip(AppLocalizations.of(context)!.house),
                 const SizedBox(width: 12),
-                _buildFilterChip('Villa'),
+                _buildFilterChip(AppLocalizations.of(context)!.villa),
               ],
             ),
           ),
@@ -268,7 +269,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _buildPropertiesList() {
-    final filteredProperties = selectedFilter == 'All'
+    final filteredProperties = selectedFilter == AppLocalizations.of(context)!.all
         ? favoriteProperties
         : favoriteProperties.where((p) => p.name.toLowerCase().contains(selectedFilter.toLowerCase())).toList();
 
@@ -368,6 +369,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
                 if (property.images.length > 1)
                   Positioned(
+                    key: ValueKey('imageCount_${property.name}'),
                     bottom: 12,
                     right: 12,
                     child: Container(
@@ -524,6 +526,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   if (property.images.length > 1)
                     Positioned(
+                      key: ValueKey('gridImageCount_${property.name}'),
                       bottom: 8,
                       right: 8,
                       child: Container(

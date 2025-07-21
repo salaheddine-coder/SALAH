@@ -1,6 +1,6 @@
-
-
 import 'package:salah/core/imports.dart';
+import 'package:salah/core/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hello',
+              AppLocalizations.of(context)!.welcome,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -194,12 +194,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+
   Widget _buildCategoriesSection() {
     final categories = [
-      {'icon': 'assets/icons/maison-moderne.png', 'label': 'Villa'},
-      {'icon': 'assets/icons/appartement.png', 'label': 'Apartment'},
-      {'icon': 'assets/icons/appartement haut standing.png', 'label': 'Luxury'},
-      {'icon': 'assets/icons/condominium.png', 'label': 'Office'},
+      {'icon': 'assets/icons/maison-moderne.png', 'label': AppLocalizations.of(context)!.villa},
+      {'icon': 'assets/icons/appartement.png', 'label': AppLocalizations.of(context)!.apartment},
+      {'icon': 'assets/icons/appartement haut standing.png', 'label': AppLocalizations.of(context)!.luxury},
+      {'icon': 'assets/icons/condominium.png', 'label': AppLocalizations.of(context)!.office},
     ];
 
     return SingleChildScrollView(
@@ -274,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'All Properties',
+          AppLocalizations.of(context)!.translate('allProperties'),
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
             color: AppColors.textPrimary,
             fontWeight: FontWeight.bold,
@@ -366,6 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Positioned(
+          key: ValueKey('favoriteBtn_${property.name}'),
           top: 16,
           right: 16,
           child: Container(
@@ -381,7 +384,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
+        // Action Buttons (Bottom Left)
         Positioned(
+          key: ValueKey('actionButtons_${property.name}'),
+          bottom: 16,
+          left: 16,
+          child: Row(
+            children: [
+              // Photos Button
+              _buildImageActionButton(
+                icon: Icons.camera_alt,
+                onTap: () => _showPropertyPhotos(property),
+              ),
+              const SizedBox(width: 8),
+              // Map Button
+              _buildImageActionButton(
+                icon: Icons.map,
+                onTap: () => _showPropertyMap(property),
+              ),
+            ],
+          ),
+        ),
+        // Image Counter (Bottom Right)
+        Positioned(
+          key: ValueKey('imageCounter_${property.name}'),
           bottom: 16,
           right: 16,
           child: Container(
@@ -439,11 +465,11 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 12),
           Row(
             children: [
-              _buildPropertyFeature(Icons.square_foot, '${property.area.toInt()} m²'),
+              _buildPropertyFeature(Icons.square_foot, '${property.area.toInt()} ${AppLocalizations.of(context)!.translate('sqm')}'),
               const SizedBox(width: 16),
-              _buildPropertyFeature(Icons.bed, '${property.bedrooms} bed'),
+              _buildPropertyFeature(Icons.bed, '${property.bedrooms} ${AppLocalizations.of(context)!.translate('bed')}'),
               const SizedBox(width: 16),
-              _buildPropertyFeature(Icons.bathroom, '${property.bathrooms} bath'),
+              _buildPropertyFeature(Icons.bathroom, '${property.bathrooms} ${AppLocalizations.of(context)!.translate('bath')}'),
             ],
           ),
           const SizedBox(height: 16),
@@ -465,6 +491,390 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImageActionButton({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.6),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 18,
+        ),
+      ),
+    );
+  }
+
+  void _showPropertyPhotos(Property property) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _buildPropertyPhotosSheet(property),
+    );
+  }
+
+  void _showPropertyMap(Property property) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _buildPropertyMapSheet(property),
+    );
+  }
+
+  Widget _buildPropertyPhotosSheet(Property property) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      child: Column(
+        children: [
+          // Handle bar
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          // Header
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Text(
+                  '${property.name} ${AppLocalizations.of(context)!.photos}',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+          // Photos Grid
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(20),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 1,
+              ),
+              itemCount: property.images.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    // Show full screen image
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => _buildFullScreenImage(property.images[index]),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      image: DecorationImage(
+                        image: AssetImage(property.images[index]),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPropertyMapSheet(Property property) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      ),
+      child: Column(
+        children: [
+          // Handle bar
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          // Header
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Text(
+                  '${property.name} Location',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+          // Map Content
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    // Map Placeholder
+                    Container(
+                      width: double.infinity,
+                      height: 300, // Fixed height for map container
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.blue.shade200),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.map,
+                            size: 60,
+                            color: Colors.blue.shade600,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Property Location Map',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            property.location,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Location Details
+                    _buildLocationDetail(
+                      Icons.location_on,
+                      'Address',
+                      property.location,
+                      Colors.red.shade600,
+                    ),
+                    const SizedBox(height: 12),
+                    _buildLocationDetail(
+                      Icons.directions,
+                      'Get Directions',
+                      'Open in Maps app',
+                      Colors.blue.shade600,
+                      onTap: () => _openMapsForDirections(property.location),
+                    ),
+                    const SizedBox(height: 12),
+                    _buildLocationDetail(
+                      Icons.near_me,
+                      'Distance',
+                      'Calculate from your location',
+                      Colors.green.shade600,
+                      onTap: () => _calculateDistance(property.location),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        
+        
+          ],
+      ),
+    );
+  }
+
+  Widget _buildLocationDetail(IconData icon, String title, String description, Color color, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: color,
+              size: 14,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _openMapsForDirections(String address) async {
+    // تنظيف العنوان وتحويله لصيغة مناسبة للخرائط
+    final encodedAddress = Uri.encodeComponent(address);
+
+    // روابط مختلفة لتطبيقات الخرائط
+    final googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$encodedAddress';
+    final appleMapsUrl = 'https://maps.apple.com/?q=$encodedAddress';
+
+    try {
+      // محاولة فتح Google Maps أولاً
+      if (await canLaunchUrl(Uri.parse(googleMapsUrl))) {
+        await launchUrl(Uri.parse(googleMapsUrl), mode: LaunchMode.externalApplication);
+      }
+      // إذا لم يعمل، جرب Apple Maps (على iOS)
+      else if (await canLaunchUrl(Uri.parse(appleMapsUrl))) {
+        await launchUrl(Uri.parse(appleMapsUrl), mode: LaunchMode.externalApplication);
+      }
+      // إذا لم يعمل أي منهما، اعرض رسالة خطأ
+      else {
+        _showErrorMessage('لا يمكن فتح تطبيق الخرائط');
+      }
+    } catch (e) {
+      _showErrorMessage('حدث خطأ في فتح تطبيق الخرائط');
+    }
+  }
+
+  void _calculateDistance(String address) {
+    // في التطبيق الحقيقي، يمكن استخدام location package لحساب المسافة الفعلية
+    // هنا سنعرض رسالة تفيد بأن الميزة قيد التطوير
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.translate('calculateDistance')),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${AppLocalizations.of(context)!.translate('address')}: $address'),
+            const SizedBox(height: 16),
+            Text(AppLocalizations.of(context)!.translate('featureUnderDevelopment')),
+            const SizedBox(height: 8),
+            Text(AppLocalizations.of(context)!.translate('youWillBeAbleTo')),
+            Text(AppLocalizations.of(context)!.translate('seeDistanceFromCurrentLocation')),
+            Text(AppLocalizations.of(context)!.translate('knowExpectedArrivalTime')),
+            Text(AppLocalizations.of(context)!.translate('choosePreferredTransport')),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.ok),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  Widget _buildFullScreenImage(String imagePath) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Center(
+        child: InteractiveViewer(
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }
@@ -530,7 +940,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Filter Properties',
+                    AppLocalizations.of(context)!.translate('filterProperties'),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
@@ -818,7 +1228,7 @@ List<Property> properties = [
   ),
   Property(
     name: 'Cozy Studio',
-    location: 'Casablanca, Casablanca Finance City, Morocco',
+    location: 'Casablanca, Maarif, Morocco',
     price: 14990,
     area: 45.0,
     bedrooms: 2,
@@ -827,11 +1237,8 @@ List<Property> properties = [
     isForRent: true,
     monthlyRent: 14990,
     images: [
-      'assets/images/appartment-1 .jpg',
-      'assets/images/appartment-2.jpg',
-      'assets/images/appartment-3.jpg',
-      'assets/images/appartment-4.jpg',
-      'assets/images/appartment-5.jpg',
+      'assets/images/Studio_1.jpeg',
+      
     ],
   ),
 ];

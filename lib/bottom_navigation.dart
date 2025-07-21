@@ -1,5 +1,6 @@
 
 import 'package:salah/core/imports.dart';
+import 'package:salah/core/app_localizations.dart';
 
 class EnhancedBottomNavigation extends StatefulWidget {
   const EnhancedBottomNavigation({super.key});
@@ -24,38 +25,40 @@ class _EnhancedBottomNavigationState extends State<EnhancedBottomNavigation>
   ];
 
   // معلومات التبويبات
-  final List<NavItem> _navItems = [
-    NavItem(
-      icon: Icons.home_outlined,
-      selectedIcon: Icons.home,
-      label: 'Home',
-      color: Colors.blue,
-    ),
-    NavItem(
-      icon: Icons.search_outlined,
-      selectedIcon: Icons.search,
-      label: 'Search',
-      color: Colors.green,
-    ),
-    NavItem(
-      icon: Icons.favorite_border,
-      selectedIcon: Icons.favorite,
-      label: 'Favorites',
-      color: Colors.red,
-    ),
-    NavItem(
-      icon: Icons.chat_bubble_outline,
-      selectedIcon: Icons.chat_bubble,
-      label: 'Messages',
-      color: Colors.purple,
-    ),
-    NavItem(
-      icon: Icons.settings_outlined,
-      selectedIcon: Icons.settings,
-      label: 'Settings',
-      color: Colors.orange,
-    ),
-  ];
+  List<NavItem> _getNavItems(BuildContext context) {
+    return [
+      NavItem(
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home,
+        label: AppLocalizations.of(context)!.home,
+        color: Colors.blue,
+      ),
+      NavItem(
+        icon: Icons.search_outlined,
+        selectedIcon: Icons.search,
+        label: AppLocalizations.of(context)!.search,
+        color: Colors.green,
+      ),
+      NavItem(
+        icon: Icons.favorite_border,
+        selectedIcon: Icons.favorite,
+        label: AppLocalizations.of(context)!.favorites,
+        color: Colors.red,
+      ),
+      NavItem(
+        icon: Icons.chat_bubble_outline,
+        selectedIcon: Icons.chat_bubble,
+        label: AppLocalizations.of(context)!.messages,
+        color: Colors.purple,
+      ),
+      NavItem(
+        icon: Icons.settings_outlined,
+        selectedIcon: Icons.settings,
+        label: AppLocalizations.of(context)!.settings,
+        color: Colors.orange,
+      ),
+    ];
+  }
 
   @override
   void initState() {
@@ -112,7 +115,7 @@ class _EnhancedBottomNavigationState extends State<EnhancedBottomNavigation>
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -135,8 +138,8 @@ class _EnhancedBottomNavigationState extends State<EnhancedBottomNavigation>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
-                _navItems.length,
-                (index) => _buildNavItem(index, isDark),
+                _getNavItems(context).length,
+                (index) => _buildNavItem(index, isDark, context),
               ),
             ),
           ),
@@ -145,9 +148,9 @@ class _EnhancedBottomNavigationState extends State<EnhancedBottomNavigation>
     );
   }
 
-  Widget _buildNavItem(int index, bool isDark) {
+  Widget _buildNavItem(int index, bool isDark, BuildContext context) {
     final isSelected = _selectedIndex == index;
-    final item = _navItems[index];
+    final item = _getNavItems(context)[index];
 
     return GestureDetector(
       onTap: () => _onItemTapped(index),
@@ -171,7 +174,7 @@ class _EnhancedBottomNavigationState extends State<EnhancedBottomNavigation>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: isSelected
-                    ? item.color.withOpacity(0.2)
+                    ? item.color.withValues(alpha: 0.2)
                     : Colors.transparent,
               ),
               child: AnimatedSwitcher(
