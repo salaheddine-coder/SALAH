@@ -151,14 +151,14 @@ class _MapScreenState extends State<MapScreen> {
                             key: const ValueKey('currentLocationBtn'),
                             child: _buildCurrentLocationButton(),
                           ),
-                        if (!isListView) const SizedBox(key: ValueKey('spacer1'), height: 12),
+                        if (!isListView) const SizedBox(height: 12),
                         // Map Type Toggle Button
                         if (!isListView)
                           Container(
                             key: const ValueKey('mapTypeBtn'),
                             child: _buildMapTypeButton(),
                           ),
-                        if (!isListView) const SizedBox(key: ValueKey('spacer2'), height: 12),
+                        if (!isListView) const SizedBox(height: 12),
                         // View Toggle Button
                         Container(
                           key: const ValueKey('viewToggleBtn'),
@@ -391,14 +391,14 @@ class _MapScreenState extends State<MapScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: _buildPropertyCard(filteredProperties[index]),
+            child: _buildPropertyCard(filteredProperties[index], index),
           );
         },
       ),
     );
   }
 
-  Widget _buildPropertyCard(Property property) {
+  Widget _buildPropertyCard(Property property, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -425,6 +425,7 @@ class _MapScreenState extends State<MapScreen> {
           children: [
             // Property Image
             Stack(
+              key: ValueKey('mapImageStack_${index}_${property.name}'),
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -436,7 +437,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 Positioned(
-                  key: ValueKey('favoriteBtn_${property.name}'),
+                  key: ValueKey('favoriteBtn_${index}_${property.name}'),
                   top: 12,
                   right: 12,
                   child: Container(
@@ -467,7 +468,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
                 if (property.images.length > 1)
                   Positioned(
-                    key: ValueKey('mapImageCount_${property.name}'),
+                    key: ValueKey('mapImageCount_${index}_${property.name}'),
                     bottom: 12,
                     right: 12,
                     child: Container(
@@ -480,7 +481,7 @@ class _MapScreenState extends State<MapScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(
-                            Icons.photo_library,
+                            Icons.camera_alt,
                             color: Colors.white,
                             size: 14,
                           ),

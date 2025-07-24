@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentImageIndex = 0;
 
   
 
@@ -333,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildPropertyImage(property),
+            _buildPropertyImage(property, index),
             _buildPropertyInfo(property),
           ],
         ),
@@ -341,17 +340,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildPropertyImage(Property property) {
+  Widget _buildPropertyImage(Property property, int index) {
     return Stack(
+      key: ValueKey('propertyImageStack_${index}_${property.name}'),
       children: [
         SizedBox(
           height: 220,
           child: PageView.builder(
+            key: ValueKey('pageView_${index}_${property.name}'),
             itemCount: property.images.length,
             onPageChanged: (index) {
-              setState(() {
-                _currentImageIndex = index;
-              });
+              // تم إزالة تتبع الفهرس لأننا نعرض العدد الإجمالي الآن
             },
             itemBuilder: (context, imageIndex) {
               return ClipRRect(
@@ -368,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Positioned(
-          key: ValueKey('favoriteBtn_${property.name}'),
+          key: ValueKey('favoriteBtn_${index}_${property.name}'),
           top: 16,
           right: 16,
           child: Container(
@@ -386,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // Action Buttons (Bottom Left)
         Positioned(
-          key: ValueKey('actionButtons_${property.name}'),
+          key: ValueKey('actionButtons_${index}_${property.name}'),
           bottom: 16,
           left: 16,
           child: Row(
@@ -407,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         // Image Counter (Bottom Right)
         Positioned(
-          key: ValueKey('imageCounter_${property.name}'),
+          key: ValueKey('imageCounter_${index}_${property.name}'),
           bottom: 16,
           right: 16,
           child: Container(
@@ -416,13 +415,24 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.black.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Text(
-              '${_currentImageIndex + 1}/${property.images.length}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.camera_alt,
+                  color: Colors.white,
+                  size: 14,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '${property.images.length}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -1107,6 +1117,7 @@ class _FilterScreenState extends State<FilterScreen> {
     return Padding(
       padding: const EdgeInsets.only(right: 12),
       child: GestureDetector(
+        key: ValueKey('filterChip_${label}_$isSelected'),
         onTap: () {
           setState(() {
             // Update selection logic

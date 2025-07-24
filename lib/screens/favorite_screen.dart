@@ -173,6 +173,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildFilterChip(String label) {
     final isSelected = selectedFilter == label;
     return GestureDetector(
+      key: ValueKey('filterChip_$label'),
       onTap: () => setState(() => selectedFilter = label),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -283,7 +284,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ),
         itemCount: filteredProperties.length,
         itemBuilder: (context, index) {
-          return _buildPropertyGridCard(filteredProperties[index]);
+          return _buildPropertyGridCard(filteredProperties[index], index);
         },
       );
     } else {
@@ -292,14 +293,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: _buildPropertyListCard(filteredProperties[index]),
+            child: _buildPropertyListCard(filteredProperties[index], index),
           );
         },
       );
     }
   }
 
-  Widget _buildPropertyListCard(Property property) {
+  Widget _buildPropertyListCard(Property property, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -326,6 +327,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           children: [
             // Property Image
             Stack(
+              key: ValueKey('listImageStack_${index}_${property.name}'),
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -369,7 +371,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
                 if (property.images.length > 1)
                   Positioned(
-                    key: ValueKey('imageCount_${property.name}'),
+                    key: ValueKey('imageCount_${index}_${property.name}'),
                     bottom: 12,
                     right: 12,
                     child: Container(
@@ -382,7 +384,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Icon(
-                            Icons.photo_library,
+                            Icons.camera_alt,
                             color: Colors.white,
                             size: 14,
                           ),
@@ -455,7 +457,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  Widget _buildPropertyGridCard(Property property) {
+  Widget _buildPropertyGridCard(Property property, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -484,6 +486,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             Expanded(
               flex: 3,
               child: Stack(
+                key: ValueKey('gridImageStack_${index}_${property.name}'),
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -526,7 +529,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   ),
                   if (property.images.length > 1)
                     Positioned(
-                      key: ValueKey('gridImageCount_${property.name}'),
+                      key: ValueKey('gridImageCount_${index}_${property.name}'),
                       bottom: 8,
                       right: 8,
                       child: Container(
@@ -539,7 +542,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const Icon(
-                              Icons.photo_library,
+                              Icons.camera_alt,
                               color: Colors.white,
                               size: 10,
                             ),
